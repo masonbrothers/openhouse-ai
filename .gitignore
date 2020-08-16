@@ -1,0 +1,5 @@
+openhouse-ai.db
+.idea/
+__pycache__/
+venv/
+
