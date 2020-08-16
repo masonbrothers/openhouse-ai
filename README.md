@@ -4,6 +4,24 @@ This application takes a request made by a front end and stores it in a database
 
 Calls can then be made to the application to get data from the database.
 
+# To test
+Please install [Python 3](python.org/downloads/) and add it to your terminal path.
+
+After installing, run:
+```bash
+pip install -r requirements.txt
+```
+
+To run server, run:
+```bash
+./run-server.sh
+```
+
+After the server is running, to run tests, run:
+```bash
+python tests.py
+```
+
 # REST API
 
 POST /add-log
@@ -27,7 +45,10 @@ The format of the request must be:
 }
 ```
 
- 
+GET /get-logs?userId=<userId>&startTime=<startTime>&endTime=<endTime>&type<type>
+
+Making a get request to the above URL will get the logs with the desired userId and type between the startTime and the endTime.
+
 
 # How to make application scalable
 There are a few ways I could make this application scalable:

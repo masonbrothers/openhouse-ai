@@ -1,5 +1,6 @@
 import requests
 import json
+from server import DATABASE_NAME
 
 sample_post = {
     "userId": "ABC123XYZ",

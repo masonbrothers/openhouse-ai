@@ -24,7 +24,7 @@ def setup_database():
     connection.close()
 
 
-@app.route('/add-log', methods=['GET', 'POST'])
+@app.route('/add-log', methods=['POST'])
 def add_log():
     try:
         data = json.loads(request.json)
@@ -45,16 +45,26 @@ def add_log():
         return jsonify({"message": "error: please pass a json request in the format specified in the documentation."}), 400
 
 
-@app.route('/get-logs')
+@app.route('/get-logs', methods=['GET'])
 def get_logs():
     try:
         data = request.data
-        # if 'userId' in data:
 
+        connection = sqlite3.connect(DATABASE_NAME)
+        cursor = connection.cursor()
+        cursor.execute(
+            "SELECT * FROM logs WHERE userId=? AND time<=? AND time>=? and type=?",
+            (data['userId'], data['startTime'], data['endTime'], data['type'])
+        )
+        rows = cursor.fetchall()
+        output = jsonify(rows)
+        cursor.close()
+        connection.close()
 
-        return data
-    except KeyError:
-        return jsonify({"error", {"message": "keyerror"}})
+        return output
+    except (KeyError, TypeError) as e:
+        app.logger.error(e)
+        return jsonify({"message": "error: please pass a request in the format specified in the documentation."}), 400
 
 
 setup_database()
